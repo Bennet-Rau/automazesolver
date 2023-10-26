@@ -18,9 +18,9 @@ struct cell{
 
 class mazeSolver {
         int rows, cols, index_x, index_y;
-        vector<vector<char>> maze;
-        vector<vector<bool>> visitedVector;
-        vector<vector<int, int>> solverMaze;
+        vector<vector<char> > maze;
+        vector<vector<bool> > visitedVector;
+        vector<vector<int, int> > solverMaze;
 
     public:
         mazeSolver();
