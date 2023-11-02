@@ -20,7 +20,9 @@ int main(){
 
     maze.readMazeFromFile(file);
 
+    maze.findStartEnd();
 
+    maze.findPath();
 
 
     return 1;

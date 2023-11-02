@@ -5,6 +5,6 @@ W, O, W, O, W, O, W, W, W, W
 W, O, W, O, O, O, O, O, O, W
 W, O, W, O, W, W, W, W, O, W
 W, O, W, O, O, O, O, W, W, W
-W, W, W, W, W, O, O, W, W, W
+W, W, W, W, W, O, W, W, W, W
 W, O, O, O, O, O, O, O, O, W
 W, W, E, W, W, W, W, W, W, W
