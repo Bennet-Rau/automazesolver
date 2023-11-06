@@ -1,8 +1,13 @@
+//Author: Bennet Rau
 //Driver for the auto maze solver in c++
+//Takes in a maze of up to size 25. 
+//W = walls
+//O = open spaces 
+//S = start
+//E = end
+//X = path taken from start to end by maze solving algorithm
 
 #include "maze_solver.h"
-#include <iostream>
-#include <fstream>
 
 using namespace std;
 
@@ -25,21 +30,30 @@ int main(){
 
         switch(userOption){
 
-            case '1':
+            case 1:
                 cout << "This is the maze file " << endl;
+                cout << "Where 'W' means walls 'S' means start 'E' means end and 'O' means open space for moving. " << endl;
                 printMazeFromFile(file);
                 cout << endl;
 
-            case '2':
-                maze.findStartEnd();
-                cout << "The starting point of the maze is at positon: " << start.row + 1 << ", " << start.col + 1 << endl;
-                cout << "The ending point of the maze is at positon: " << end.row + 1 << ", " << end.col + 1 << endl;
+                break;
 
-            case '3':
+            case 2:
+                maze.readMazeFromFile(file);
+                maze.findStartEnd();
+                cout << endl;
+
+                break;
+
+            case 3:
                 cout << "This is the path of the maze from start to end" << endl;
+                maze.readMazeFromFile(file);
                 maze.findPath();
                 maze.printPath();
                 cout << endl;
+                cout << "Where 'X' shows the path taken by maze solving algorithm" << endl << endl;
+
+                break;
 
             default:
                 break;
@@ -83,7 +97,7 @@ void printMazeFromFile(string file){
             cout << endl;
         }
         else{
-            cout << inputCH << ", ";
+            cout << inputCH;
         }
     }
 

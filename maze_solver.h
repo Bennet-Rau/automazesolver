@@ -1,8 +1,6 @@
 #ifndef MAZE_SOLVER_H
 #define MAZE_SOLVER_H
 
-#include <vector>
-#include <queue>
 #include <iostream>
 #include <fstream>
 #include <stack>

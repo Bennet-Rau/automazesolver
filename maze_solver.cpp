@@ -141,7 +141,6 @@ bool mazeSolver::isValid(int row, int col, int numRows, int numCols) {
 bool mazeSolver::findPath() {
 
     findStartEnd();
-    readMazeFromFile();
 
     int numRows = getNumRows();
     int numCols = getNumCols();
