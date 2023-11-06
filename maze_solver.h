@@ -5,6 +5,7 @@
 #include <queue>
 #include <iostream>
 #include <fstream>
+#include <stack>
 
 #define MAX_X 25
 #define MAX_Y 25
@@ -22,7 +23,7 @@ struct cell{
 class mazeSolver {
         int rows, cols, index_x, index_y;
         cell start, end;
-        char maze[MAX_X][MAX_Y];
+        char maze[MAX_X][MAX_Y], foundPathMaze[MAX_X][MAX_Y];
         bool visited[MAX_X][MAX_Y];
         //vector<vector<int, int> > solverMaze;
 
@@ -43,8 +44,8 @@ class mazeSolver {
         void setEnd(cell);
 
         bool readMazeFromFile(string& file);
-        bool findPath(cell start, cell end);
-        // void printPath(cell start, cell end);
+        bool findPath();
+        void printPath();
         bool isValid(int, int, int, int);
         bool findStartEnd();
 

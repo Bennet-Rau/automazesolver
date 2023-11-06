@@ -77,15 +77,10 @@ bool mazeSolver::readMazeFromFile(string &file){
     // Set the maze dimensions based on what was counted
     setNumRows(numRows);
     setNumCols(numCols);
-
-    cout << "This is the number of cols: " << numRows << endl;
-    cout << "This is the number of rows: " << numCols << endl;
-
     
     //Sets the input read back to the start of the file
     input.clear();                                                          
     input.seekg(0, ios::beg);   
-
 
     //Reads maze into the 2d char array
     int rowIndex = 0;
@@ -100,6 +95,7 @@ bool mazeSolver::readMazeFromFile(string &file){
         //only looks for valid characters 
         else if(inputCH == 'W' || inputCH == 'S' || inputCH == 'O' || inputCH == 'E'){
             maze[rowIndex][colIndex] = inputCH;
+            foundPathMaze[rowIndex][colIndex] = inputCH;
             colIndex++;
         }
         //looks for endline character to increment row index
@@ -128,14 +124,12 @@ bool mazeSolver::findStartEnd(){
             }
             if(maze[i][j] == 'E'){
                 cell end(i, j);
+                setEnd(end);
                 Efound = true;
                 cout << "End was found at: " << i << ", " << j << endl;
             }
         }
     }
-
-    
-
     return Sfound && Efound;
 }
 
@@ -143,52 +137,84 @@ bool mazeSolver::isValid(int row, int col, int numRows, int numCols) {
     return row >= 0 && row < numRows && col >= 0 && col < numCols;
 }
 
-bool mazeSolver::findPath(cell start, cell end) {
+
+bool mazeSolver::findPath() {
+
+    findStartEnd();
+    readMazeFromFile();
+
     int numRows = getNumRows();
     int numCols = getNumCols();
+    cell start = getStart();
+    cell end = getEnd();
+    stack<cell> dfsStack;
+    dfsStack.push(start);
 
-    // Ensure start and end cells are within the bounds of the maze
-    if (!isValid(start.row, start.col, numRows, numCols) ||
-        !isValid(end.row, end.col, numRows, numCols)) {
-        return false;
-    }
+    //define possible moves (left, right, up, down)
+    int dirRows[] = {-1, 1, 0, 0};
+    int dirCols[] = {0, 0, -1, 1};
 
-    //set all indexes to false
-    for(int i = 0; i < numRows; i++){
-        for(int j = 0; j < numCols; j++){
+    //initialize the visited array with false
+    for (int i = 0; i < numRows; i++) {
+        for (int j = 0; j < numCols; j++) {
             visited[i][j] = false;
         }
     }
 
-    // Define possible moves (up, down, left, right)
-    int dirRows[] = {-1, 1, 0, 0};
-    int dirCols[] = {0, 0, -1, 1};
+    //While loop to search maze for correct path using back tracking
+    while (!dfsStack.empty()) {
 
-    queue<cell> q;
-    q.push(start);
+        cell current = dfsStack.top();
+        int row = current.row;
+        int col = current.col;
 
-    while (!q.empty()) {
-        cell current = q.front();
-        q.pop();
+        //Case for path found and storing it in the 2d array, showing the paths using X
+        if (row == end.row && col == end.col) { 
 
-        //Path found condition
-        if (current.row == end.row && current.col == end.col) {
-            return true; 
+            while (dfsStack.empty() == false) {
+                cell pathCell = dfsStack.top();
+                foundPathMaze[pathCell.row][pathCell.col] = 'X';
+                dfsStack.pop();
+            }
+            return true;
         }
 
-        // Explore neighbors
-        for (int i = 0; i < 4; ++i) {
-            int newRow = current.row + dirRows[i];
-            int newCol = current.col + dirCols[i];
+        //Mark the current cell as visited
+        visited[row][col] = true;
+        //Set found next to false
+        bool foundNext = false;
 
-            if (isValid(newRow, newCol, numRows, numCols) && maze[newRow][newCol] != 'W' && visited[newRow][newCol] == false) {
-                visited[newRow][newCol] = true;
-                cell newCell(newRow, newCol);
-                q.push(newCell);
+        //Explore neighboring cells to find the path
+        for(int i = 0; i < 4; ++i){
+
+            int newRow = row + dirRows[i];
+            int newCol = col + dirCols[i];
+
+            if(isValid(newRow, newCol, numRows, numCols) && maze[newRow][newCol] != 'W' && visited[newRow][newCol] == false){
+                dfsStack.push(cell(newRow, newCol));
+                foundNext = true;
             }
+        }
+
+        // If no valid path is found, backtrack
+        if(foundNext == false){
+            dfsStack.pop();
         }
     }
 
-    return false; 
+    return false;
 }
 
+
+
+
+void mazeSolver::printPath(){
+    //Prints the path
+    cout << "Path from Start to End:" << endl;
+    for (int i = 0; i < getNumRows(); i++) {
+        for (int j = 0; j < getNumCols(); j++) {
+            cout << foundPathMaze[i][j] << ' ';
+        }
+        cout << endl;
+    }
+}
