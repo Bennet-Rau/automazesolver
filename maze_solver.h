@@ -1,3 +1,6 @@
+//maze solver header file
+//Auhtor: Bennet Rau
+
 #ifndef MAZE_SOLVER_H
 #define MAZE_SOLVER_H
 

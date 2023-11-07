@@ -1,4 +1,5 @@
-
+//maze solver cpp file
+//Auhtor: Bennet Rau
 #include "maze_solver.h"
 
 mazeSolver::mazeSolver(){
