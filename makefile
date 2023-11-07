@@ -1,3 +1,4 @@
+
 mazeSolver: driver.o
 	g++ -o mazeSolver driver.o
 
